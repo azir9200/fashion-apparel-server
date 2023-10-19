@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -38,6 +38,13 @@ async function run() {
       res.send(result);
     })
 
+
+    app.get('/allCards', async (req, res) => {
+      const cursor = userCollection.find();
+      const result = await cursor.toArray()
+      res.send(result);
+    })
+
     app.post('/allBrands', async (req, res) => {
       const newBrand = req.body;
       console.log(newBrand);
@@ -47,7 +54,7 @@ async function run() {
 
 
 
-    app.post('/user', async (req, res) => {
+    app.post('/allCards', async (req, res) => {
       const user = req.body;
       console.log(user);
       const result = await userCollection.insertOne(user);
