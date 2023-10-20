@@ -39,8 +39,9 @@ async function run() {
     })
 
 
-    app.get('/allCards', async (req, res) => {
-      const cursor = userCollection.find();
+    app.get('/allCards/:name', async (req, res) => {
+      console.log(req.query.name);
+      const cursor = userCollection.find({ brandName: req.params.name });
       const result = await cursor.toArray()
       res.send(result);
     })
@@ -58,6 +59,14 @@ async function run() {
       const user = req.body;
       console.log(user);
       const result = await userCollection.insertOne(user);
+      res.send(result);
+    })
+
+    app.delete('/allCards/:id', async (req, res) => {
+      const id = req.params.id;
+      console.log('Delete from detabase', id);
+      const query = { _id: id }
+      const result = await userCollection.deleteOne(query);
       res.send(result);
     })
 
