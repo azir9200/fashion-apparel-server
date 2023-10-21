@@ -31,6 +31,7 @@ async function run() {
 
     const fashionCollection = client.db('fashionDB').collection('fashion');
     const userCollection = client.db('fashionDB').collection('user');
+    const registerCollection = client.db('fashionDB').collection('register');
 
     app.get('/allBrands', async (req, res) => {
       const cursor = fashionCollection.find();
@@ -46,13 +47,19 @@ async function run() {
       res.send(result);
     })
 
+    app.get('/adidas/:name', async (req, res) => {
+      console.log(req.query.name);
+      const cursor = userCollection.find({ brandName: req.params.name });
+      const result = await cursor.toArray()
+      res.send(result)
+    })
+
     app.post('/allBrands', async (req, res) => {
       const newBrand = req.body;
       console.log(newBrand);
       const result = await fashionCollection.insertOne(newBrand);
       res.send(result);
     })
-
 
 
     app.post('/allCards', async (req, res) => {
@@ -67,6 +74,15 @@ async function run() {
       console.log('Delete from detabase', id);
       const query = { _id: id }
       const result = await userCollection.deleteOne(query);
+      res.send(result);
+    })
+
+
+    // signup Related API
+    app.post('/register', async (req, res) => {
+      const register = req.body;
+      console.log(register);
+      const result = await registerCollection.insertOne(register);
       res.send(result);
     })
 
