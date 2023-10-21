@@ -83,7 +83,7 @@ async function run() {
       const register = req.body;
       console.log(register);
       const result = await registerCollection.insertOne(register);
-      res.send(result);
+      res.send(result)
     })
 
 
