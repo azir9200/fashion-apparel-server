@@ -33,25 +33,26 @@ async function run() {
     const userCollection = client.db('fashionDB').collection('user');
     const registerCollection = client.db('fashionDB').collection('register');
 
+    // Home page card to get
     app.get('/allBrands', async (req, res) => {
       const cursor = fashionCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     })
 
-
+    // card showing only one brand
     app.get('/allCards/:name', async (req, res) => {
       console.log(req.query.name);
       const cursor = userCollection.find({ brandName: req.params.name });
       const result = await cursor.toArray()
       res.send(result);
     })
-
-    app.get('/adidas/:name', async (req, res) => {
-      console.log(req.query.name);
-      const cursor = userCollection.find({ brandName: req.params.name });
+    // sigle cart Details collect
+    app.get('/cartDetails', async (req, res) => {
+      // console.log(req.query.name);
+      const cursor = userCollection.find();
       const result = await cursor.toArray()
-      res.send(result)
+      res.send(result);
     })
 
     app.post('/allBrands', async (req, res) => {
